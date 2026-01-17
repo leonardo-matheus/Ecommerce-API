@@ -1,26 +1,43 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-ruby '2.7.1'
+ruby '3.2.2'
 
-gem 'rails', '~> 6.0.3', '>= 6.0.3.3'
+# Core Rails framework
+gem 'rails', '~> 7.0.8'
 
-# Basic
-gem 'pg', '>= 0.18', '< 2.0'
-gem 'puma', '~> 4.1'
-gem 'bootsnap', '>= 1.4.2', require: false
+# Database - SQLite para desenvolvimento/teste
+gem 'sqlite3', '~> 1.6'
 
-group :development, :test do
-  gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
-end
+# Web server - versão com binário pré-compilado para Windows
+gem 'puma', '~> 5.6.8'
 
-# Auth
-gem 'devise_token_auth', '~> 1.1.4'
+# Boot optimization
+gem 'bootsnap', '>= 1.16', require: false
+
+# Authentication with JWT tokens
+gem 'devise', '~> 4.9'
+gem 'devise_token_auth', '~> 1.2'
+
+# CORS support for API
+gem 'rack-cors', '~> 2.0'
+
+# JSON serialization
+gem 'jbuilder', '~> 2.11'
+
+# Pagination
+gem 'kaminari', '~> 1.2'
+
+# Força versões com binários pré-compilados
+gem 'bcrypt', '~> 3.1.18'
+gem 'date', '~> 3.3.3'
+gem 'io-console', '~> 0.6.0'
 
 group :development do
-  gem 'listen', '~> 3.2'
-  gem 'spring'
-  gem 'spring-watcher-listen', '~> 2.0.0'
+  gem 'listen', '~> 3.8'
 end
 
-gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
+# Windows timezone support
+gem 'tzinfo-data', platforms: %i[windows jruby]

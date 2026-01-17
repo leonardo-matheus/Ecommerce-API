@@ -1,0 +1,31 @@
+# Arquivos e pastas a ignorar no build do Docker
+
+# Git
+.git
+.gitignore
+
+# Logs
+log/*
+tmp/*
+
+# Banco de dados local
+db/*.sqlite3
+db/*.sqlite3-*
+
+# Editor/IDE
+.idea
+.vscode
+*.swp
+*.swo
+
+# Documentação
+README.md
+docs/
+
+# Testes
+spec/
+test/
+
+# Outros
+.dockerignore
+docker-compose*.yml

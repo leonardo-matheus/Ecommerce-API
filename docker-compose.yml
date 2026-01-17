@@ -1,0 +1,22 @@
+# docker-compose para ambiente de desenvolvimento
+# Uso: docker-compose up
+
+version: '3.8'
+
+services:
+  api:
+    build: .
+    ports:
+      - "3000:3000"
+    volumes:
+      # Persiste banco de dados
+      - ./db:/app/db
+      # Hot reload do código
+      - .:/app:cached
+      - bundle:/usr/local/bundle
+    environment:
+      - RAILS_ENV=development
+    command: bash -c "rails db:create db:migrate && rails server -b 0.0.0.0"
+
+volumes:
+  bundle:

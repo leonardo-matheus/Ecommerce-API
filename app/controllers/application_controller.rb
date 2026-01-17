@@ -1,9 +1,16 @@
+# frozen_string_literal: true
+
+# Controller base da aplicação
+# Configura parâmetros permitidos para autenticação Devise
 class ApplicationController < ActionController::API
-        before_action :configure_permitted_parameters, if: :devise_controller?
+  # Configura parâmetros adicionais permitidos no Devise
+  before_action :configure_permitted_parameters, if: :devise_controller?
 
-        protected
+  protected
 
-        def configure_permitted_parameters
-                devise_parameter_sanitizer.permit(:sign_up, keys: [:name, :email, :password, :password_confirmation])
-        end
+  # Permite campos adicionais (name) no signup e update de conta
+  def configure_permitted_parameters
+    devise_parameter_sanitizer.permit(:sign_up, keys: %i[name])
+    devise_parameter_sanitizer.permit(:account_update, keys: %i[name])
+  end
 end

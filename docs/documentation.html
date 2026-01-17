@@ -1,0 +1,1524 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentação - Ecommerce API</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #0ea5e9;
+            --accent: #10b981;
+            --dark: #0f172a;
+            --dark-light: #1e293b;
+            --text: #334155;
+            --text-light: #64748b;
+            --white: #ffffff;
+            --gray-50: #f8fafc;
+            --gray-100: #f1f5f9;
+            --gray-200: #e2e8f0;
+            --gray-300: #cbd5e1;
+            --success: #22c55e;
+            --warning: #f59e0b;
+            --error: #ef4444;
+            --sidebar-width: 280px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: var(--white);
+            color: var(--text);
+            line-height: 1.7;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: var(--sidebar-width);
+            height: 100vh;
+            background: var(--gray-50);
+            border-right: 1px solid var(--gray-200);
+            overflow-y: auto;
+            padding: 1.5rem;
+            z-index: 100;
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--gray-200);
+            margin-bottom: 1.5rem;
+        }
+
+        .sidebar-header a {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 700;
+            font-size: 1.25rem;
+        }
+
+        .sidebar-header i {
+            color: var(--primary);
+        }
+
+        .sidebar-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .sidebar-section h4 {
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-light);
+            margin-bottom: 0.75rem;
+            padding-left: 0.5rem;
+        }
+
+        .sidebar-nav {
+            list-style: none;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 0.25rem;
+        }
+
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.6rem 0.75rem;
+            color: var(--text);
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .sidebar-nav a:hover {
+            background: var(--gray-200);
+            color: var(--dark);
+        }
+
+        .sidebar-nav a.active {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        .sidebar-nav a i {
+            width: 18px;
+            text-align: center;
+            font-size: 0.85rem;
+        }
+
+        .back-link {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            color: var(--text-light);
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: var(--primary);
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: var(--sidebar-width);
+            padding: 3rem 4rem;
+            max-width: 900px;
+        }
+
+        .doc-section {
+            margin-bottom: 4rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--dark);
+            margin-bottom: 1rem;
+        }
+
+        h2 {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 1rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--gray-200);
+        }
+
+        h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin: 1.5rem 0 0.75rem;
+        }
+
+        h4 {
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--dark);
+            margin: 1rem 0 0.5rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--text);
+        }
+
+        .lead {
+            font-size: 1.125rem;
+            color: var(--text-light);
+            margin-bottom: 2rem;
+        }
+
+        /* Code blocks */
+        code {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.875rem;
+            background: var(--gray-100);
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            color: var(--primary-dark);
+        }
+
+        pre {
+            background: var(--dark);
+            color: #e2e8f0;
+            padding: 1.25rem;
+            border-radius: 10px;
+            overflow-x: auto;
+            margin: 1rem 0 1.5rem;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.85rem;
+            line-height: 1.6;
+        }
+
+        pre code {
+            background: none;
+            padding: 0;
+            color: inherit;
+        }
+
+        .code-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--dark-light);
+            padding: 0.5rem 1rem;
+            border-radius: 10px 10px 0 0;
+            margin-top: 1rem;
+        }
+
+        .code-header span {
+            color: var(--text-light);
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .code-header + pre {
+            margin-top: 0;
+            border-radius: 0 0 10px 10px;
+        }
+
+        /* Tables */
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 1rem 0 1.5rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+        }
+
+        th, td {
+            padding: 0.75rem 1rem;
+            text-align: left;
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        th {
+            background: var(--gray-50);
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        tr:hover {
+            background: var(--gray-50);
+        }
+
+        /* Method badges */
+        .method {
+            display: inline-block;
+            padding: 0.2rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .method.get { background: #dcfce7; color: #16a34a; }
+        .method.post { background: #dbeafe; color: #2563eb; }
+        .method.put { background: #fef3c7; color: #d97706; }
+        .method.patch { background: #fef3c7; color: #d97706; }
+        .method.delete { background: #fee2e2; color: #dc2626; }
+
+        /* Alerts */
+        .alert {
+            padding: 1rem 1.25rem;
+            border-radius: 8px;
+            margin: 1rem 0;
+            display: flex;
+            gap: 0.75rem;
+            align-items: flex-start;
+        }
+
+        .alert i {
+            font-size: 1.1rem;
+            margin-top: 2px;
+        }
+
+        .alert-info {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+
+        .alert-warning {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .alert-success {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .alert-danger {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        /* Lists */
+        ul, ol {
+            margin: 1rem 0;
+            padding-left: 1.5rem;
+        }
+
+        li {
+            margin-bottom: 0.5rem;
+        }
+
+        /* Cards */
+        .card {
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: 10px;
+            padding: 1.25rem;
+            margin: 1rem 0;
+        }
+
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .card h4 {
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .card h4 i {
+            color: var(--primary);
+        }
+
+        /* Endpoint block */
+        .endpoint {
+            border: 1px solid var(--gray-200);
+            border-radius: 10px;
+            margin: 1.5rem 0;
+            overflow: hidden;
+        }
+
+        .endpoint-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem 1.25rem;
+            background: var(--gray-50);
+            border-bottom: 1px solid var(--gray-200);
+        }
+
+        .endpoint-path {
+            font-family: 'Fira Code', monospace;
+            font-size: 0.9rem;
+            color: var(--dark);
+        }
+
+        .endpoint-body {
+            padding: 1.25rem;
+        }
+
+        .endpoint-body h4 {
+            margin-top: 0;
+        }
+
+        /* Status codes */
+        .status-code {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            font-family: 'Fira Code', monospace;
+        }
+
+        .status-code.success { background: #dcfce7; color: #166534; }
+        .status-code.error { background: #fee2e2; color: #991b1b; }
+        .status-code.warning { background: #fef3c7; color: #92400e; }
+
+        /* Model diagram */
+        .model-diagram {
+            background: var(--dark);
+            color: #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 10px;
+            font-family: 'Fira Code', monospace;
+            font-size: 0.8rem;
+            line-height: 1.5;
+            overflow-x: auto;
+            margin: 1.5rem 0;
+        }
+
+        /* TOC */
+        .toc {
+            background: var(--gray-50);
+            border: 1px solid var(--gray-200);
+            border-radius: 10px;
+            padding: 1.5rem;
+            margin: 2rem 0;
+        }
+
+        .toc h4 {
+            margin: 0 0 1rem;
+            font-size: 0.9rem;
+        }
+
+        .toc ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .toc li {
+            margin-bottom: 0.5rem;
+        }
+
+        .toc a {
+            color: var(--text);
+            text-decoration: none;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .toc a:hover {
+            color: var(--primary);
+        }
+
+        .toc a::before {
+            content: '→';
+            color: var(--text-light);
+        }
+
+        /* Tabs */
+        .tabs {
+            display: flex;
+            gap: 0.25rem;
+            border-bottom: 1px solid var(--gray-200);
+            margin-bottom: 1rem;
+        }
+
+        .tab-btn {
+            padding: 0.75rem 1.25rem;
+            border: none;
+            background: none;
+            color: var(--text-light);
+            font-weight: 500;
+            cursor: pointer;
+            border-bottom: 2px solid transparent;
+            margin-bottom: -1px;
+            transition: all 0.2s;
+        }
+
+        .tab-btn:hover {
+            color: var(--dark);
+        }
+
+        .tab-btn.active {
+            color: var(--primary);
+            border-bottom-color: var(--primary);
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Responsive */
+        @media (max-width: 900px) {
+            .sidebar {
+                transform: translateX(-100%);
+                transition: transform 0.3s;
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 2rem;
+            }
+
+            .mobile-toggle {
+                display: flex;
+            }
+        }
+
+        .mobile-toggle {
+            display: none;
+            position: fixed;
+            top: 1rem;
+            left: 1rem;
+            width: 40px;
+            height: 40px;
+            background: var(--primary);
+            color: var(--white);
+            border: none;
+            border-radius: 8px;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            z-index: 200;
+        }
+
+        /* Syntax highlighting */
+        .hljs-keyword { color: #c084fc; }
+        .hljs-string { color: #4ade80; }
+        .hljs-number { color: #fbbf24; }
+        .hljs-comment { color: #64748b; }
+        .hljs-property { color: #60a5fa; }
+    </style>
+</head>
+<body>
+    <button class="mobile-toggle" onclick="toggleSidebar()">
+        <i class="fas fa-bars"></i>
+    </button>
+
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+            <a href="index.html">
+                <i class="fas fa-store"></i>
+                Ecommerce API
+            </a>
+        </div>
+
+        <a href="index.html" class="back-link">
+            <i class="fas fa-arrow-left"></i>
+            Voltar para Home
+        </a>
+
+        <div class="sidebar-section">
+            <h4>Introdução</h4>
+            <ul class="sidebar-nav">
+                <li><a href="#overview"><i class="fas fa-book"></i>Visão Geral</a></li>
+                <li><a href="#getting-started"><i class="fas fa-rocket"></i>Começando</a></li>
+                <li><a href="#installation"><i class="fas fa-download"></i>Instalação</a></li>
+            </ul>
+        </div>
+
+        <div class="sidebar-section">
+            <h4>Autenticação</h4>
+            <ul class="sidebar-nav">
+                <li><a href="#authentication"><i class="fas fa-lock"></i>Como Funciona</a></li>
+                <li><a href="#auth-register"><i class="fas fa-user-plus"></i>Registro</a></li>
+                <li><a href="#auth-login"><i class="fas fa-sign-in-alt"></i>Login</a></li>
+                <li><a href="#auth-headers"><i class="fas fa-key"></i>Headers</a></li>
+            </ul>
+        </div>
+
+        <div class="sidebar-section">
+            <h4>Storefront API</h4>
+            <ul class="sidebar-nav">
+                <li><a href="#storefront-products"><i class="fas fa-box"></i>Produtos</a></li>
+                <li><a href="#storefront-categories"><i class="fas fa-tags"></i>Categorias</a></li>
+                <li><a href="#storefront-orders"><i class="fas fa-shopping-cart"></i>Pedidos</a></li>
+                <li><a href="#storefront-profile"><i class="fas fa-user"></i>Perfil</a></li>
+            </ul>
+        </div>
+
+        <div class="sidebar-section">
+            <h4>Admin API</h4>
+            <ul class="sidebar-nav">
+                <li><a href="#admin-dashboard"><i class="fas fa-chart-line"></i>Dashboard</a></li>
+                <li><a href="#admin-products"><i class="fas fa-cube"></i>Produtos</a></li>
+                <li><a href="#admin-categories"><i class="fas fa-folder"></i>Categorias</a></li>
+                <li><a href="#admin-orders"><i class="fas fa-clipboard-list"></i>Pedidos</a></li>
+                <li><a href="#admin-users"><i class="fas fa-users"></i>Usuários</a></li>
+            </ul>
+        </div>
+
+        <div class="sidebar-section">
+            <h4>Referência</h4>
+            <ul class="sidebar-nav">
+                <li><a href="#models"><i class="fas fa-database"></i>Models</a></li>
+                <li><a href="#status-codes"><i class="fas fa-info-circle"></i>Status Codes</a></li>
+                <li><a href="#errors"><i class="fas fa-exclamation-triangle"></i>Erros</a></li>
+            </ul>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <!-- Overview -->
+        <section class="doc-section" id="overview">
+            <h1>Documentação da API</h1>
+            <p class="lead">
+                Guia completo para integrar com a Ecommerce API. Esta documentação cobre todos os endpoints, 
+                autenticação, modelos de dados e exemplos de uso.
+            </p>
+
+            <div class="toc">
+                <h4>📑 Nesta Página</h4>
+                <ul>
+                    <li><a href="#getting-started">Começando</a></li>
+                    <li><a href="#authentication">Autenticação JWT</a></li>
+                    <li><a href="#storefront-products">API Storefront</a></li>
+                    <li><a href="#admin-dashboard">API Admin</a></li>
+                    <li><a href="#models">Modelos de Dados</a></li>
+                </ul>
+            </div>
+
+            <h2 id="getting-started">🚀 Começando</h2>
+            <p>
+                A Ecommerce API é uma API RESTful construída com Ruby on Rails que fornece todos os endpoints 
+                necessários para um e-commerce completo.
+            </p>
+
+            <div class="card-grid">
+                <div class="card">
+                    <h4><i class="fas fa-server"></i> Base URL</h4>
+                    <code>http://localhost:3000</code>
+                </div>
+                <div class="card">
+                    <h4><i class="fas fa-code"></i> Formato</h4>
+                    <p>JSON (application/json)</p>
+                </div>
+                <div class="card">
+                    <h4><i class="fas fa-lock"></i> Auth</h4>
+                    <p>JWT via Headers</p>
+                </div>
+                <div class="card">
+                    <h4><i class="fas fa-code-branch"></i> Versão</h4>
+                    <p>v1 (namespaced)</p>
+                </div>
+            </div>
+
+            <h2 id="installation">📦 Instalação</h2>
+            
+            <h3>Com Docker (Recomendado)</h3>
+            <div class="code-header">
+                <span>Terminal</span>
+            </div>
+            <pre>git clone https://github.com/seu-usuario/ecommerce-api.git
+cd ecommerce-api
+docker-compose up --build</pre>
+
+            <h3>Instalação Local</h3>
+            <div class="code-header">
+                <span>Terminal</span>
+            </div>
+            <pre># Instalar dependências
+bundle install
+
+# Criar e popular banco de dados
+rails db:create db:migrate db:seed
+
+# Iniciar servidor
+rails server</pre>
+
+            <div class="alert alert-info">
+                <i class="fas fa-info-circle"></i>
+                <div>
+                    <strong>Dados de Teste</strong><br>
+                    O comando <code>db:seed</code> cria usuários de teste:
+                    <ul>
+                        <li>Admin: admin@ecommerce.com / password123</li>
+                        <li>Cliente: cliente@teste.com / password123</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- Authentication -->
+        <section class="doc-section" id="authentication">
+            <h2>🔐 Autenticação</h2>
+            <p>
+                A API utiliza autenticação JWT (JSON Web Tokens) via <strong>Devise Token Auth</strong>. 
+                Após o login, você recebe tokens nos headers da resposta que devem ser incluídos em 
+                todas as requisições autenticadas.
+            </p>
+
+            <h3 id="auth-register">Registro de Usuário</h3>
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method post">POST</span>
+                    <span class="endpoint-path">/auth/v1/user</span>
+                </div>
+                <div class="endpoint-body">
+                    <h4>Request Body</h4>
+                    <pre>{
+  "name": "João Silva",
+  "email": "joao@email.com",
+  "password": "minhasenha123",
+  "password_confirmation": "minhasenha123"
+}</pre>
+
+                    <h4>Response (200 OK)</h4>
+                    <pre>{
+  "status": "success",
+  "data": {
+    "id": 1,
+    "email": "joao@email.com",
+    "name": "João Silva",
+    "profile": "client",
+    "provider": "email",
+    "uid": "joao@email.com"
+  }
+}</pre>
+
+                    <div class="alert alert-success">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Os tokens de autenticação são retornados nos <strong>headers</strong> da resposta.</span>
+                    </div>
+                </div>
+            </div>
+
+            <h3 id="auth-login">Login</h3>
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method post">POST</span>
+                    <span class="endpoint-path">/auth/v1/user/sign_in</span>
+                </div>
+                <div class="endpoint-body">
+                    <h4>Request Body</h4>
+                    <pre>{
+  "email": "joao@email.com",
+  "password": "minhasenha123"
+}</pre>
+
+                    <h4>Response Headers</h4>
+                    <pre>access-token: eyJhbGciOiJIUzI1NiJ9...
+token-type: Bearer
+client: abc123xyz789...
+expiry: 1705612800
+uid: joao@email.com</pre>
+                </div>
+            </div>
+
+            <h3 id="auth-headers">Headers de Autenticação</h3>
+            <p>Inclua estes headers em todas as requisições que exigem autenticação:</p>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Header</th>
+                            <th>Descrição</th>
+                            <th>Exemplo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><code>access-token</code></td>
+                            <td>Token de acesso JWT</td>
+                            <td>eyJhbGciOiJIUzI1...</td>
+                        </tr>
+                        <tr>
+                            <td><code>client</code></td>
+                            <td>Identificador do cliente</td>
+                            <td>abc123xyz789...</td>
+                        </tr>
+                        <tr>
+                            <td><code>uid</code></td>
+                            <td>Email do usuário</td>
+                            <td>joao@email.com</td>
+                        </tr>
+                        <tr>
+                            <td><code>token-type</code></td>
+                            <td>Tipo do token</td>
+                            <td>Bearer</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h4>Exemplo com cURL</h4>
+            <div class="code-header">
+                <span>cURL</span>
+            </div>
+            <pre>curl -X GET http://localhost:3000/storefront/v1/profile \
+  -H "Content-Type: application/json" \
+  -H "access-token: eyJhbGciOiJIUzI1NiJ9..." \
+  -H "client: abc123xyz789..." \
+  -H "uid: joao@email.com"</pre>
+
+            <h3>Logout</h3>
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method delete">DELETE</span>
+                    <span class="endpoint-path">/auth/v1/user/sign_out</span>
+                </div>
+                <div class="endpoint-body">
+                    <p>Requer headers de autenticação. Invalida os tokens atuais.</p>
+                </div>
+            </div>
+
+            <h3>Recuperar Senha</h3>
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method post">POST</span>
+                    <span class="endpoint-path">/auth/v1/user/password</span>
+                </div>
+                <div class="endpoint-body">
+                    <pre>{
+  "email": "joao@email.com",
+  "redirect_url": "http://seusite.com/reset-password"
+}</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Storefront API -->
+        <section class="doc-section" id="storefront-products">
+            <h2>🛒 Storefront API - Produtos</h2>
+            <p>Endpoints públicos para navegação de produtos no catálogo.</p>
+
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method get">GET</span>
+                    <span class="endpoint-path">/storefront/v1/products</span>
+                </div>
+                <div class="endpoint-body">
+                    <h4>Query Parameters</h4>
+                    <div class="table-wrapper">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Parâmetro</th>
+                                    <th>Tipo</th>
+                                    <th>Descrição</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td><code>category_id</code></td>
+                                    <td>integer</td>
+                                    <td>Filtrar por categoria</td>
+                                </tr>
+                                <tr>
+                                    <td><code>search</code></td>
+                                    <td>string</td>
+                                    <td>Buscar no nome/descrição</td>
+                                </tr>
+                                <tr>
+                                    <td><code>page</code></td>
+                                    <td>integer</td>
+                                    <td>Página (default: 1)</td>
+                                </tr>
+                                <tr>
+                                    <td><code>per_page</code></td>
+                                    <td>integer</td>
+                                    <td>Itens por página (default: 10)</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <h4>Response</h4>
+                    <pre>{
+  "products": [
+    {
+      "id": 1,
+      "name": "MacBook Pro 14\"",
+      "description": "Laptop Apple M3 Pro",
+      "price": "12999.00",
+      "stock_quantity": 15,
+      "category": {
+        "id": 2,
+        "name": "Notebooks"
+      }
+    }
+  ],
+  "meta": {
+    "current_page": 1,
+    "next_page": 2,
+    "prev_page": null,
+    "total_pages": 5,
+    "total_count": 48
+  }
+}</pre>
+                </div>
+            </div>
+
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method get">GET</span>
+                    <span class="endpoint-path">/storefront/v1/products/:id</span>
+                </div>
+                <div class="endpoint-body">
+                    <p>Retorna detalhes completos de um produto específico.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="doc-section" id="storefront-categories">
+            <h2>🏷️ Storefront API - Categorias</h2>
+            
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method get">GET</span>
+                    <span class="endpoint-path">/storefront/v1/categories</span>
+                </div>
+                <div class="endpoint-body">
+                    <h4>Response</h4>
+                    <pre>{
+  "categories": [
+    {
+      "id": 1,
+      "name": "Eletrônicos",
+      "description": "Dispositivos eletrônicos",
+      "subcategories": [
+        { "id": 2, "name": "Notebooks" },
+        { "id": 3, "name": "Smartphones" }
+      ]
+    }
+  ]
+}</pre>
+                </div>
+            </div>
+        </section>
+
+        <section class="doc-section" id="storefront-orders">
+            <h2>📦 Storefront API - Pedidos</h2>
+            
+            <div class="alert alert-warning">
+                <i class="fas fa-exclamation-triangle"></i>
+                <span>Todos os endpoints de pedidos requerem <strong>autenticação</strong>.</span>
+            </div>
+
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method post">POST</span>
+                    <span class="endpoint-path">/storefront/v1/orders</span>
+                </div>
+                <div class="endpoint-body">
+                    <h4>Request Body</h4>
+                    <pre>{
+  "order": {
+    "items": [
+      { "product_id": 1, "quantity": 2 },
+      { "product_id": 5, "quantity": 1 }
+    ]
+  }
+}</pre>
+
+                    <h4>Response (201 Created)</h4>
+                    <pre>{
+  "id": 42,
+  "status": "pending",
+  "total": "26997.00",
+  "created_at": "2026-01-17T10:30:00Z",
+  "items": [
+    {
+      "product_id": 1,
+      "product_name": "MacBook Pro",
+      "quantity": 2,
+      "unit_price": "12999.00",
+      "subtotal": "25998.00"
+    },
+    {
+      "product_id": 5,
+      "product_name": "Mouse Magic",
+      "quantity": 1,
+      "unit_price": "999.00",
+      "subtotal": "999.00"
+    }
+  ]
+}</pre>
+                </div>
+            </div>
+
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method get">GET</span>
+                    <span class="endpoint-path">/storefront/v1/orders</span>
+                </div>
+                <div class="endpoint-body">
+                    <p>Lista todos os pedidos do usuário autenticado.</p>
+                </div>
+            </div>
+
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method put">PUT</span>
+                    <span class="endpoint-path">/storefront/v1/orders/:id/cancel</span>
+                </div>
+                <div class="endpoint-body">
+                    <p>Cancela um pedido. Só funciona se o status for <code>pending</code>.</p>
+                </div>
+            </div>
+        </section>
+
+        <section class="doc-section" id="storefront-profile">
+            <h2>👤 Storefront API - Perfil</h2>
+            
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method get">GET</span>
+                    <span class="endpoint-path">/storefront/v1/profile</span>
+                </div>
+                <div class="endpoint-body">
+                    <p>Retorna dados do perfil do usuário autenticado.</p>
+                </div>
+            </div>
+
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method put">PUT</span>
+                    <span class="endpoint-path">/storefront/v1/profile</span>
+                </div>
+                <div class="endpoint-body">
+                    <pre>{
+  "user": {
+    "name": "João Silva Santos",
+    "password": "novasenha123",
+    "password_confirmation": "novasenha123"
+  }
+}</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Admin API -->
+        <section class="doc-section" id="admin-dashboard">
+            <h2>⚙️ Admin API</h2>
+            
+            <div class="alert alert-danger">
+                <i class="fas fa-shield-alt"></i>
+                <span>Todos os endpoints Admin requerem autenticação com perfil <strong>admin</strong>.</span>
+            </div>
+
+            <h3>Dashboard</h3>
+            <div class="endpoint">
+                <div class="endpoint-header">
+                    <span class="method get">GET</span>
+                    <span class="endpoint-path">/admin/v1/home</span>
+                </div>
+                <div class="endpoint-body">
+                    <h4>Response</h4>
+                    <pre>{
+  "stats": {
+    "total_users": 1250,
+    "total_products": 89,
+    "total_orders": 3420,
+    "total_categories": 15,
+    "pending_orders": 23,
+    "processing_orders": 12,
+    "shipped_orders": 45,
+    "active_products": 82,
+    "out_of_stock_products": 7
+  }
+}</pre>
+                </div>
+            </div>
+        </section>
+
+        <section class="doc-section" id="admin-products">
+            <h3>Gerenciar Produtos</h3>
+            
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Método</th>
+                            <th>Endpoint</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="method get">GET</span></td>
+                            <td><code>/admin/v1/products</code></td>
+                            <td>Listar todos (com filtros)</td>
+                        </tr>
+                        <tr>
+                            <td><span class="method get">GET</span></td>
+                            <td><code>/admin/v1/products/:id</code></td>
+                            <td>Detalhes do produto</td>
+                        </tr>
+                        <tr>
+                            <td><span class="method post">POST</span></td>
+                            <td><code>/admin/v1/products</code></td>
+                            <td>Criar produto</td>
+                        </tr>
+                        <tr>
+                            <td><span class="method put">PUT</span></td>
+                            <td><code>/admin/v1/products/:id</code></td>
+                            <td>Atualizar produto</td>
+                        </tr>
+                        <tr>
+                            <td><span class="method delete">DELETE</span></td>
+                            <td><code>/admin/v1/products/:id</code></td>
+                            <td>Excluir produto</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h4>Criar Produto</h4>
+            <pre>{
+  "product": {
+    "name": "iPhone 15 Pro Max",
+    "description": "Smartphone Apple com chip A17 Pro",
+    "price": 9999.00,
+    "stock_quantity": 50,
+    "category_id": 3,
+    "active": true
+  }
+}</pre>
+        </section>
+
+        <section class="doc-section" id="admin-categories">
+            <h3>Gerenciar Categorias</h3>
+            
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Método</th>
+                            <th>Endpoint</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="method get">GET</span></td>
+                            <td><code>/admin/v1/categories</code></td>
+                            <td>Listar categorias</td>
+                        </tr>
+                        <tr>
+                            <td><span class="method post">POST</span></td>
+                            <td><code>/admin/v1/categories</code></td>
+                            <td>Criar categoria</td>
+                        </tr>
+                        <tr>
+                            <td><span class="method put">PUT</span></td>
+                            <td><code>/admin/v1/categories/:id</code></td>
+                            <td>Atualizar categoria</td>
+                        </tr>
+                        <tr>
+                            <td><span class="method delete">DELETE</span></td>
+                            <td><code>/admin/v1/categories/:id</code></td>
+                            <td>Excluir categoria</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h4>Criar Categoria com Subcategoria</h4>
+            <pre>{
+  "category": {
+    "name": "Smartphones",
+    "description": "Telefones celulares",
+    "parent_id": 1,  // Subcategoria de Eletrônicos
+    "active": true
+  }
+}</pre>
+        </section>
+
+        <section class="doc-section" id="admin-orders">
+            <h3>Gerenciar Pedidos</h3>
+            
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Método</th>
+                            <th>Endpoint</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="method get">GET</span></td>
+                            <td><code>/admin/v1/orders</code></td>
+                            <td>Listar pedidos</td>
+                        </tr>
+                        <tr>
+                            <td><span class="method get">GET</span></td>
+                            <td><code>/admin/v1/orders/:id</code></td>
+                            <td>Detalhes do pedido</td>
+                        </tr>
+                        <tr>
+                            <td><span class="method put">PUT</span></td>
+                            <td><code>/admin/v1/orders/:id/status</code></td>
+                            <td>Atualizar status</td>
+                        </tr>
+                        <tr>
+                            <td><span class="method put">PUT</span></td>
+                            <td><code>/admin/v1/orders/:id/cancel</code></td>
+                            <td>Cancelar pedido</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h4>Status do Pedido</h4>
+            <div class="model-diagram">
+pending → paid → processing → shipped → delivered
+                          ↓
+                      cancelled
+            </div>
+
+            <h4>Atualizar Status</h4>
+            <pre>{
+  "order": {
+    "status": "shipped"
+  }
+}</pre>
+        </section>
+
+        <section class="doc-section" id="admin-users">
+            <h3>Gerenciar Usuários</h3>
+            
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Método</th>
+                            <th>Endpoint</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="method get">GET</span></td>
+                            <td><code>/admin/v1/users</code></td>
+                            <td>Listar usuários</td>
+                        </tr>
+                        <tr>
+                            <td><span class="method get">GET</span></td>
+                            <td><code>/admin/v1/users/:id</code></td>
+                            <td>Detalhes do usuário</td>
+                        </tr>
+                        <tr>
+                            <td><span class="method put">PUT</span></td>
+                            <td><code>/admin/v1/users/:id</code></td>
+                            <td>Atualizar perfil (admin/client)</td>
+                        </tr>
+                        <tr>
+                            <td><span class="method delete">DELETE</span></td>
+                            <td><code>/admin/v1/users/:id</code></td>
+                            <td>Excluir usuário</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="alert alert-warning">
+                <i class="fas fa-exclamation-triangle"></i>
+                <span>Não é possível excluir a própria conta de admin.</span>
+            </div>
+        </section>
+
+        <!-- Models -->
+        <section class="doc-section" id="models">
+            <h2>📊 Modelos de Dados</h2>
+            
+            <h3>Diagrama ER</h3>
+            <div class="model-diagram">
+┌─────────────────┐       ┌─────────────────┐       ┌─────────────────┐
+│      USER       │       │    CATEGORY     │       │     PRODUCT     │
+├─────────────────┤       ├─────────────────┤       ├─────────────────┤
+│ id              │       │ id              │       │ id              │
+│ name            │       │ name            │       │ name            │
+│ email           │       │ description     │       │ description     │
+│ profile (enum)  │       │ parent_id (FK)  │───┐   │ price           │
+│ tokens (json)   │       │ active          │   │   │ stock_quantity  │
+└────────┬────────┘       └─────────────────┘   │   │ category_id (FK)│──┐
+         │                        ↑             │   │ active          │  │
+         │                        └─────────────┘   └─────────────────┘  │
+         │                       (self-reference)           ↑            │
+         │                                                  │            │
+         │ has_many                                         │            │
+         ▼                                                  │            │
+┌─────────────────┐                              ┌──────────┴──────────┐ │
+│      ORDER      │                              │    ORDER_ITEM       │ │
+├─────────────────┤                              ├─────────────────────┤ │
+│ id              │                              │ id                  │ │
+│ user_id (FK)    │──────────────────────────────│ order_id (FK)       │ │
+│ status (enum)   │          has_many            │ product_id (FK)     │─┘
+│ total           │                              │ quantity            │
+│ created_at      │                              │ unit_price          │
+└─────────────────┘                              └─────────────────────┘
+            </div>
+
+            <h3>User</h3>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Campo</th>
+                            <th>Tipo</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>id</td><td>integer</td><td>ID único</td></tr>
+                        <tr><td>name</td><td>string</td><td>Nome completo</td></tr>
+                        <tr><td>email</td><td>string</td><td>Email (único)</td></tr>
+                        <tr><td>profile</td><td>enum</td><td>admin (0) | client (1)</td></tr>
+                        <tr><td>created_at</td><td>datetime</td><td>Data de criação</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>Product</h3>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Campo</th>
+                            <th>Tipo</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>id</td><td>integer</td><td>ID único</td></tr>
+                        <tr><td>name</td><td>string</td><td>Nome do produto</td></tr>
+                        <tr><td>description</td><td>text</td><td>Descrição</td></tr>
+                        <tr><td>price</td><td>decimal</td><td>Preço (10,2)</td></tr>
+                        <tr><td>stock_quantity</td><td>integer</td><td>Quantidade em estoque</td></tr>
+                        <tr><td>category_id</td><td>integer</td><td>FK para Category</td></tr>
+                        <tr><td>active</td><td>boolean</td><td>Produto ativo</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <h3>Order</h3>
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Campo</th>
+                            <th>Tipo</th>
+                            <th>Descrição</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>id</td><td>integer</td><td>ID único</td></tr>
+                        <tr><td>user_id</td><td>integer</td><td>FK para User</td></tr>
+                        <tr><td>status</td><td>enum</td><td>pending|paid|processing|shipped|delivered|cancelled</td></tr>
+                        <tr><td>total</td><td>decimal</td><td>Total calculado</td></tr>
+                        <tr><td>created_at</td><td>datetime</td><td>Data do pedido</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Status Codes -->
+        <section class="doc-section" id="status-codes">
+            <h2>📋 Status Codes HTTP</h2>
+            
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Código</th>
+                            <th>Significado</th>
+                            <th>Quando Ocorre</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="status-code success">200 OK</span></td>
+                            <td>Sucesso</td>
+                            <td>Requisição processada com sucesso</td>
+                        </tr>
+                        <tr>
+                            <td><span class="status-code success">201 Created</span></td>
+                            <td>Criado</td>
+                            <td>Recurso criado (POST)</td>
+                        </tr>
+                        <tr>
+                            <td><span class="status-code success">204 No Content</span></td>
+                            <td>Sem conteúdo</td>
+                            <td>Deletado com sucesso</td>
+                        </tr>
+                        <tr>
+                            <td><span class="status-code error">400 Bad Request</span></td>
+                            <td>Requisição inválida</td>
+                            <td>Parâmetros incorretos</td>
+                        </tr>
+                        <tr>
+                            <td><span class="status-code error">401 Unauthorized</span></td>
+                            <td>Não autorizado</td>
+                            <td>Token inválido/ausente</td>
+                        </tr>
+                        <tr>
+                            <td><span class="status-code error">403 Forbidden</span></td>
+                            <td>Proibido</td>
+                            <td>Sem permissão (ex: não é admin)</td>
+                        </tr>
+                        <tr>
+                            <td><span class="status-code error">404 Not Found</span></td>
+                            <td>Não encontrado</td>
+                            <td>Recurso não existe</td>
+                        </tr>
+                        <tr>
+                            <td><span class="status-code warning">422 Unprocessable</span></td>
+                            <td>Não processável</td>
+                            <td>Validação falhou</td>
+                        </tr>
+                        <tr>
+                            <td><span class="status-code error">500 Server Error</span></td>
+                            <td>Erro interno</td>
+                            <td>Erro no servidor</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Errors -->
+        <section class="doc-section" id="errors">
+            <h2>⚠️ Tratamento de Erros</h2>
+            <p>Todas as respostas de erro seguem um formato padronizado:</p>
+
+            <h3>Erro de Validação (422)</h3>
+            <pre>{
+  "errors": {
+    "name": ["não pode ficar em branco"],
+    "email": ["já está em uso", "não é válido"],
+    "price": ["deve ser maior que 0"]
+  }
+}</pre>
+
+            <h3>Erro de Autenticação (401)</h3>
+            <pre>{
+  "errors": ["Token de autenticação inválido ou expirado"]
+}</pre>
+
+            <h3>Erro de Permissão (403)</h3>
+            <pre>{
+  "errors": ["Acesso negado. Permissão de administrador necessária."]
+}</pre>
+
+            <h3>Recurso Não Encontrado (404)</h3>
+            <pre>{
+  "errors": ["Produto não encontrado"]
+}</pre>
+        </section>
+
+        <div style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid var(--gray-200); text-align: center; color: var(--text-light);">
+            <p>Ecommerce API Documentation &copy; 2026</p>
+            <p><a href="index.html" style="color: var(--primary); text-decoration: none;">← Voltar para Home</a></p>
+        </div>
+    </main>
+
+    <script>
+        // Mobile sidebar toggle
+        function toggleSidebar() {
+            document.getElementById('sidebar').classList.toggle('open');
+        }
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                    // Close mobile sidebar
+                    document.getElementById('sidebar').classList.remove('open');
+                }
+            });
+        });
+
+        // Active nav highlighting
+        const sections = document.querySelectorAll('.doc-section');
+        const navLinks = document.querySelectorAll('.sidebar-nav a');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                if (scrollY >= sectionTop) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === '#' + current) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
+</body>
+</html>
