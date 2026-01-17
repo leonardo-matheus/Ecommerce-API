@@ -2,9 +2,24 @@
 
 API RESTful completa para e-commerce construída com Ruby on Rails.
 
+[![Demo App](https://img.shields.io/badge/Demo-Testar%20App-10b981?style=for-the-badge&logo=shopify)](https://seu-usuario.github.io/ecommerce-api/app.html)
+[![Documentação](https://img.shields.io/badge/Docs-Documentação-6366f1?style=for-the-badge&logo=gitbook)](https://seu-usuario.github.io/ecommerce-api/documentation.html)
+[![Landing Page](https://img.shields.io/badge/Site-Landing%20Page-0ea5e9?style=for-the-badge&logo=github)](https://seu-usuario.github.io/ecommerce-api/)
+
+## 🌐 Links Rápidos
+
+| Recurso | URL |
+|---------|-----|
+| 🏠 **Landing Page** | [Ver Site](docs/index.html) |
+| 📖 **Documentação** | [Acessar Docs](docs/documentation.html) |
+| 🛒 **Demo App** | [Testar Loja](docs/app.html) |
+
+---
+
 ## 📋 Índice
 
 - [Sobre o Projeto](#-sobre-o-projeto)
+- [Demo Online](#-demo-online)
 - [Tecnologias](#-tecnologias)
 - [Estrutura do Projeto](#-estrutura-do-projeto)
 - [Instalação](#-instalação)
@@ -25,6 +40,37 @@ Esta API fornece funcionalidades completas para um e-commerce, incluindo:
 - ✅ **Área Administrativa** para gerenciamento completo
 - ✅ **Área do Cliente (Storefront)** para navegação e compras
 - ✅ **Paginação** em todas as listagens
+- ✅ **Frontend Demo** para testar a API
+
+---
+
+## 🌐 Demo Online
+
+O projeto inclui um **frontend demo completo** que pode ser hospedado no GitHub Pages:
+
+### GitHub Pages
+
+```
+docs/
+├── index.html        # Landing page com métricas e features
+├── documentation.html # Documentação técnica completa
+└── app.html          # Frontend demo funcional
+```
+
+### Funcionalidades do Demo App
+
+- 🛍️ **Catálogo de Produtos** - Navegue, filtre e busque
+- 🛒 **Carrinho de Compras** - Adicione, remova e altere quantidades
+- 👤 **Autenticação** - Login/Registro com tokens
+- 📦 **Pedidos** - Crie e acompanhe seus pedidos
+- 🔄 **Modo Demo** - Funciona mesmo sem a API (dados mockados)
+
+### Deploy no GitHub Pages
+
+1. Faça push do repositório para o GitHub
+2. Vá em **Settings > Pages**
+3. Selecione branch `main` e pasta `/docs`
+4. Acesse: `https://seu-usuario.github.io/ecommerce-api/`
 
 ---
 
